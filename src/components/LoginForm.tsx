@@ -25,7 +25,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
           name="username"
           minLength={2}
           maxLength={300}
-          {
+            {
             ...register('username', {
               required: {
                 value: true,
@@ -43,7 +43,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
                 value: /^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/i,
                 message: 'Este campo solo acepta Usernames'
               }
-          })}
+            })}
         ></Form.Control>
         <Form.Text className="text-danger tamLetra d-block">
           {errors.username?.message}
@@ -58,7 +58,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
           name="password"
           minLength={4}
           maxLength={16}
-          {
+            {
             ...register('password', {
               required: {
                 value: true,
@@ -76,7 +76,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
                 value: /^[a-zA-Z]+[0-9]+$/i,
                 message: 'La contraseña debe tener al entre 4 y 16 caracteres con números y letras'
               }
-          })}
+            })}
         ></Form.Control>
         <Form.Text className="text-danger tamLetra">
           {errors.password?.message}

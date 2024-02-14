@@ -3,7 +3,7 @@ import { LoginForm } from '../components/LoginForm'
 import '../styles/loginPage.css'
 
 export const LoginPage: React.FC = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const handleLogin = (username: string, password: string): void => {
     // Aquí podrías realizar la lógica de autenticación, como enviar una solicitud al servidor, etc.
     console.log(`Username: ${username}, Password: ${password}`)
