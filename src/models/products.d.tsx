@@ -10,6 +10,7 @@ export interface Articulo {
   talle: string
   color: string
   stock: number
+  price: number
 }
 
 export type Productos = Articulo[]

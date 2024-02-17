@@ -1,14 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ProductsEx } from '../models/products.d'
+import { type ModalProps } from '../types/types.d'
+import { Link } from 'react-router-dom'
 
-interface SlideShoppingCartProps {
-  show: boolean
-  handleClose: () => void
-}
-
-export const SlideShoppingCart = ({ show, handleClose }: SlideShoppingCartProps): JSX.Element => {
+export const SlideShoppingCart = ({ show, handleClose }: ModalProps): JSX.Element => {
   const products = ProductsEx
   return (
     <Transition.Root show={show} as={Fragment}>
@@ -104,12 +101,12 @@ export const SlideShoppingCart = ({ show, handleClose }: SlideShoppingCartProps)
                         <p>$262.00</p>
                       </div>
                       <div className="mt-6">
-                        <a
-                          href="#"
+                        <Link
+                          to={'/payment'}
                           className="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
                         >
                           Pagar
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </div>

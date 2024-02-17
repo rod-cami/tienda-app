@@ -1,28 +1,31 @@
 import React, { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
-import { useForm } from 'react-hook-form'
+import { type SubmitHandler, useForm } from 'react-hook-form'
 import { type Users } from '../models/users.d'
+import { handleLogin } from '../services/servicesLogin'
 
-interface LoginFormProps {
-  load: boolean
-  onLogin: (username: string, password: string) => void
-}
+export const LoginForm = (): JSX.Element => {
+  const [loading] = useState(false)
+  const { register, formState: { errors }, handleSubmit } = useForm<Users>()
 
-export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
-  const { register, formState: { errors } } = useForm()
-  const handleSubmit = (data: Users, e: React.FormEvent): void => {
+  const handleSubmitForm: SubmitHandler<Users> = (data, e) => {
     console.log(data)
-    onLogin(data.username, data.password)
+    if (handleLogin(data)) {
+      window.location.reload()
+      window.location.href = '/home'
+      e.target.reset()
+    } else {
+      console.log('no entro')
+    }
   }
 
   return (
-    <Form className='row m-0 p-1' onSubmit={ () => handleSubmit}>
+    <Form className='row m-0 p-1' onSubmit={ handleSubmit( handleSubmitForm ) }>
       <Form.Group className="col-12 mt-3">
         <Form.Label className='text-lg fw-light'>Username</Form.Label>
         <Form.Control
           placeholder="Ingrese username"
           className="input w-full border-2 border-gray-100 rounded-xl p-3 mt-1 text-black"
-          name="username"
           minLength={2}
           maxLength={300}
             {
@@ -39,7 +42,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
                 value: 2,
                 message: 'Debe ser mayor a 2'
               },
-              pattern: { 
+              pattern: {
                 value: /^[a-zA-Z0-9]+([._]?[a-zA-Z0-9]+)*$/i,
                 message: 'Este campo solo acepta Usernames'
               }
@@ -55,7 +58,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
           placeholder="Ingrese contraseña"
           className='w-full border-2 border-gray-100 rounded-xl p-3 mt-1 '
           type="password"
-          name="password"
           minLength={4}
           maxLength={16}
             {
@@ -83,7 +85,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ load, onLogin }) => {
         </Form.Text>
       </Form.Group>
       <div className='mt-8 flex flex-col gap-y-4'>
-        <button type="submit" className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-3 rounded-xl text-black font-bold text-lg bg-white'> { load ? <Spinner color='light'></Spinner> : <p className='fw-light'> Ingresar </p>}</button>
+        <button type="submit" className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-3 rounded-xl text-black font-bold text-lg bg-white'> { loading ? <Spinner color='light'></Spinner> : <p className='fw-light'> Ingresar </p>}</button>
       </div>
     </Form>
   )

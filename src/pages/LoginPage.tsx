@@ -1,18 +1,27 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { LoginForm } from '../components/LoginForm'
 import '../styles/loginPage.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faShopify } from '@fortawesome/free-brands-svg-icons'
+import { Footer } from '../containers/Footer'
 
 export const LoginPage: React.FC = () => {
-  const [loading] = useState(false)
-  const handleLogin = (username: string, password: string): void => {
-    // Aquí podrías realizar la lógica de autenticación, como enviar una solicitud al servidor, etc.
-    console.log(`Username: ${username}, Password: ${password}`)
-  }
-
   return (
-    <div className='p-lg-5 py-5 px-2 w-50 mx-auto my-10 contenedor-login'>
-      <h1 className='fs-1 text-center fw-light'>Bienvenide?</h1>
-      <LoginForm load={loading} onLogin={handleLogin} />
+    <div className="flex flex-col min-h-screen">
+      <div className='text-white m-3 flex-grow '>
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <div className='flex justify-center mt-20'>
+            <FontAwesomeIcon className="h-10 w-auto text-white" icon={faShopify}/>
+          </div>
+          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-slate-50">
+          Inicia sesión en tu cuenta
+          </h2>
+        </div>
+        <div className="mb-40 sm:mx-auto sm:w-full sm:max-w-sm">
+          <LoginForm/>
+        </div>
+      </div>
+      <Footer/>
     </div>
   )
 }

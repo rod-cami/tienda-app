@@ -1,5 +1,9 @@
 export interface Users {
   username: string
   password: string
-  type: string
+}
+
+export const User = {
+  username: 'cami',
+  password: 'cami123'
 }

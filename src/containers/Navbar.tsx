@@ -4,6 +4,8 @@ import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outli
 import { SlideShoppingCart } from '../components/SlideShoppingCart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShopify } from '@fortawesome/free-brands-svg-icons'
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
 
 const navigation = [
   { name: 'Venta', href: '#', current: false }
@@ -13,7 +15,11 @@ const classNames = (...classes: any[]): string => {
   return classes.filter(Boolean).join(' ')
 }
 
-export const Navbar = (): JSX.Element => {
+interface PropsNavbar {
+  checkout: boolean
+}
+
+export const Navbar = ({ checkout }: PropsNavbar): JSX.Element => {
   const [show, setShow] = useState<boolean>(false)
   const handleShow = (): void => {
     setShow(!show)
@@ -40,6 +46,7 @@ export const Navbar = (): JSX.Element => {
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                  {checkout ?
                   <div className="ml-4 flow-root lg:ml-6">
                     <a href="#" onClick={handleShow} className="group -m-2 flex items-center p-2">
                       <ShoppingBagIcon
@@ -49,11 +56,18 @@ export const Navbar = (): JSX.Element => {
                       <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
                     </a>
                   </div>
+                  :
+                  <div className="ml-4 flow-root lg:ml-6">
+                    <Link to="/home" className="group -m-2 flex items-center p-2">
+                      <FontAwesomeIcon className='text-white' icon={faArrowLeft} />
+                    </Link>
+                  </div>
+                  }
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="absolute -inset-1.5" />
-                        <span className="sr-only">Open user menu</span>
+                        <span className="sr-only">Menú de Usuario</span>
                         <img
                           className="h-8 w-8 rounded-full"
                           src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -93,12 +107,12 @@ export const Navbar = (): JSX.Element => {
                         </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
-                            <a
-                              href="#"
+                            <Link
+                              to="/"
                               className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                             >
-                              Sign out
-                            </a>
+                              Salir
+                            </Link>
                           )}
                         </Menu.Item>
                       </Menu.Items>

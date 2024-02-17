@@ -1,4 +1,3 @@
-import React from 'react'
 import { Navbar } from '../containers/Navbar'
 import { Footer } from '../containers/Footer'
 import '../styles/homePage.css'
@@ -7,13 +6,13 @@ import { SearchButton } from '../components/SearchButton'
 
 export const HomePage = (): JSX.Element => {
   return (
-    <>
-      <Navbar></Navbar>
-      <div className='text-white m-3'>
+    <div className='flex flex-col min-h-screen'>
+      <Navbar checkout={true}/>
+      <div className='text-white m-3 flex-grow body'>
         <SearchButton/>
         <ProductCard/>
       </div>
-      <Footer></Footer>
-    </>
+      <Footer/>
+    </div>
   )
 }
