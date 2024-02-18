@@ -4,7 +4,6 @@ import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outli
 import { SlideShoppingCart } from '../components/SlideShoppingCart'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShopify } from '@fortawesome/free-brands-svg-icons'
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 
 const navigation = [
@@ -15,11 +14,7 @@ const classNames = (...classes: any[]): string => {
   return classes.filter(Boolean).join(' ')
 }
 
-interface PropsNavbar {
-  checkout: boolean
-}
-
-export const Navbar = ({ checkout }: PropsNavbar): JSX.Element => {
+export const Navbar = (): JSX.Element => {
   const [show, setShow] = useState<boolean>(false)
   const handleShow = (): void => {
     setShow(!show)
@@ -46,23 +41,6 @@ export const Navbar = ({ checkout }: PropsNavbar): JSX.Element => {
                   </div>
                 </div>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                  {checkout ?
-                  <div className="ml-4 flow-root lg:ml-6">
-                    <a href="#" onClick={handleShow} className="group -m-2 flex items-center p-2">
-                      <ShoppingBagIcon
-                        className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
-                        aria-hidden="true"
-                      />
-                      <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">0</span>
-                    </a>
-                  </div>
-                  :
-                  <div className="ml-4 flow-root lg:ml-6">
-                    <Link to="/home" className="group -m-2 flex items-center p-2">
-                      <FontAwesomeIcon className='text-white' icon={faArrowLeft} />
-                    </Link>
-                  </div>
-                  }
                   <Menu as="div" className="relative ml-3">
                     <div>
                       <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">

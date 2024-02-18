@@ -1,4 +1,4 @@
-import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button } from '@nextui-org/react'
+import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/react'
 import { type ModalProps } from '../types/types.d'
 import { CustomerInformationForm } from './CustomerInformationForm'
 import { CreditCardInformationForm } from './CreditCardInformationForm'

@@ -1,4 +1,4 @@
-import { User, type Users } from '../models/users.d'
+import { User, type Users } from '../models/usuario.d'
 
 export const handleLogin = (user: Users): boolean => {
   const userEx = User

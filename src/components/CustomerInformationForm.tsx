@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
-import { type Customer } from '../models/customers.d'
+import { type Customer } from '../models/cliente.d'
 
 export const CustomerInformationForm = (): JSX.Element => {
   const { register, formState: { errors }, handleSubmit} = useForm()

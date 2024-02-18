@@ -1,7 +1,6 @@
 import { Fragment, useState } from 'react'
 import { Dialog, RadioGroup, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import { StarIcon } from '@heroicons/react/20/solid'
 import { type ModalProps } from '../types/types.d'
 import { Button, ButtonGroup } from '@nextui-org/react'
 
@@ -14,7 +13,7 @@ const product = {
   imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-quick-preview-02-detail.jpg',
   imageAlt: 'Two each of gray, white, and black shirts arranged on table.',
   colors: [
-    { name: 'White', class: 'bg-white', selectedClass: 'ring-gray-400' },
+    { name: 'White', class: 'bg-white', selectedClass: 'ring-indigo-500' },
     { name: 'Gray', class: 'bg-gray-200', selectedClass: 'ring-gray-400' },
     { name: 'Black', class: 'bg-gray-900', selectedClass: 'ring-gray-900' }
   ],
@@ -80,36 +79,20 @@ export const ProductModal = ({ show, handleClose }: ModalProps): JSX.Element => 
                     className="absolute right-4 top-4 text-gray-400 hover:text-gray-500 sm:right-6 sm:top-8 md:right-6 md:top-6 lg:right-8 lg:top-8"
                     onClick={handleClose}
                   >
-                    <span className="sr-only">Close</span>
+                    <span className="sr-only">Cerrar</span>
                     <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                   </button>
 
-                  <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-12 lg:gap-x-8">
-                    <div className="aspect-h-3 aspect-w-2 overflow-hidden rounded-lg bg-gray-100 sm:col-span-4 lg:col-span-5">
-                      <img src={product.imageSrc} alt={product.imageAlt} className="object-cover object-center" />
-                    </div>
+                  <div className="grid w-full grid-cols-1 items-start gap-x-6 gap-y-8 sm:grid-cols-6 lg:gap-x-8">
                     <div className="sm:col-span-8 lg:col-span-7">
                       <h2 className="text-2xl font-bold text-gray-900 sm:pr-12">{product.name}</h2>
-
-                      <section aria-labelledby="information-heading" className="mt-2">
-                        <h3 id="information-heading" className="sr-only">
-                          Product information
-                        </h3>
-
-                        <p className="text-2xl text-gray-900">{product.price}</p>
-
-                      </section>
-
+                      <p className="text-2xl text-gray-900">{product.price}</p>
                       <section aria-labelledby="options-heading" className="mt-10">
-                        <h3 id="options-heading" className="sr-only">
-                          Product options
-                        </h3>
-
-                        <form>
-                          <div>
+                        <form className='row m-0 p-0'>
+                          <div className='col-6'>
                             <h4 className="text-sm font-medium text-gray-900">Color</h4>
                             <RadioGroup value={selectedColor} onChange={setSelectedColor} className="mt-4">
-                              <RadioGroup.Label className="sr-only">Choose a color</RadioGroup.Label>
+                              <RadioGroup.Label className="sr-only">Elije un color</RadioGroup.Label>
                               <span className="flex items-center space-x-3">
                                 {product.colors.map((color) => (
                                   <RadioGroup.Option
@@ -138,6 +121,15 @@ export const ProductModal = ({ show, handleClose }: ModalProps): JSX.Element => 
                                 ))}
                               </span>
                             </RadioGroup>
+                          </div>
+
+                          <div className='col-6'>
+                            <h4 className="text-sm font-medium text-gray-900">Cantidad</h4>
+                            <ButtonGroup className='mt-4'>
+                              <Button className='cursor-pointer bg-white text-gray-900 shadow-sm border' onClick={decreaseQuantity}>-</Button>
+                              <Button className='cursor-not-allowed pointer-events-none bg-white text-gray-900 shadow-sm border'>{quantity}</Button>
+                              <Button className='cursor-pointer bg-white text-gray-900 shadow-sm border' onClick={increaseQuantity}>+</Button>
+                            </ButtonGroup>
                           </div>
 
                           <div className="mt-10">
@@ -189,20 +181,11 @@ export const ProductModal = ({ show, handleClose }: ModalProps): JSX.Element => 
                             </RadioGroup>
                           </div>
 
-                          <div className='mt-10'>
-                            <h4 className="text-sm font-medium text-gray-900">Cantidad</h4>
-                            <ButtonGroup className='mt-4'>
-                              <Button className='cursor-pointer bg-white text-gray-900 shadow-sm border' onClick={decreaseQuantity}>-</Button>
-                              <Button className='cursor-not-allowed pointer-events-none bg-white text-gray-900 shadow-sm border'>{quantity}</Button>
-                              <Button className='cursor-pointer bg-white text-gray-900 shadow-sm border' onClick={increaseQuantity}>+</Button>
-                            </ButtonGroup>
-                          </div>
-
                           <button
                             type="submit"
                             className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                           >
-                            Agregar al carrito
+                            Agregar
                           </button>
                         </form>
                       </section>

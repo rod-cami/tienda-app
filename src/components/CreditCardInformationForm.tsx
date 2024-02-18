@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
-import { type CreditCard } from '../models/customers.d'
+import { type CreditCard } from '../models/cliente.d'
 
 export const CreditCardInformationForm = (): JSX.Element => {
   const { register, formState: { errors }, handleSubmit} = useForm()

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { type Users } from '../models/users.d'
+import { type Users } from '../models/usuario.d'
 import { handleLogin } from '../services/servicesLogin'
 
 export const LoginForm = (): JSX.Element => {
