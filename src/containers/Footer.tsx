@@ -2,8 +2,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGithub, faChrome } from '@fortawesome/free-brands-svg-icons'
 
 export const Icons = [
-  { name: 'github', componente: <FontAwesomeIcon icon={faGithub} href='https://github.com/rod-cami/tienda-app'/>},
-  { name: 'browser-chrome', componente: <FontAwesomeIcon icon={faChrome} />}
+  { name: 'github', componente: <FontAwesomeIcon icon={faGithub}/>, link: 'https://github.com/rod-cami/tienda-app' },
+  { name: 'browser-chrome', componente: <FontAwesomeIcon icon={faChrome} />, link: 'https://github.com/rod-cami/tienda-app' }
 ]
 
 export const Footer = (): JSX.Element => {
@@ -19,7 +19,7 @@ export const Footer = (): JSX.Element => {
             rounded-full bg-gray-700 mx-1.5 text-xl hover:text-gray-100 hover:bg-teal-500
             duration-300"
             >
-            {icon.componente}
+            <a className='m-0 p-0' href={icon.link}>{icon.componente}</a>
             </span>
           ))}
         </div>

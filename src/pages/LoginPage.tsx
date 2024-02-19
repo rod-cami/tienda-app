@@ -6,6 +6,7 @@ import { faShopify } from '@fortawesome/free-brands-svg-icons'
 import { Footer } from '../containers/Footer'
 
 export const LoginPage: React.FC = () => {
+  localStorage.setItem('products', JSON.stringify([]))
   return (
     <div className="flex flex-col min-h-screen">
       <div className='text-white m-3 flex-grow '>

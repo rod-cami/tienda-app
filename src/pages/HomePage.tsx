@@ -14,7 +14,6 @@ export const HomePage = (): JSX.Element => {
       <div className='flex-grow'>
         <div className='row m-0 p-0'>
           <div className='text-white col-12 col-md-6'>
-            <SearchButton/>
             <ProductCard/>
           </div>
           <div className='col-12 col-md-6'>

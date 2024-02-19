@@ -4,6 +4,11 @@ export interface Talle {
   IdTipoTalle: number | null
 }
 
+export interface TallesDisponibles {
+  medida: string
+  stock: boolean
+}
+
 export const Talles: Talle[] = [
   {
     IdTalle: 1,
