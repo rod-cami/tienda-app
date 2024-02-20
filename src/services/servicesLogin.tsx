@@ -5,11 +5,7 @@ export const handleLogin = (user: Users): boolean => {
   const userExJson = JSON.stringify(userEx)
   const userJson = JSON.stringify(user)
 
-  console.log('UserEx', userExJson)
-  console.log('User', userJson)
-
   if (userExJson === userJson) {
-    console.log('hola')
     return true
   }
 

@@ -1,3 +1,6 @@
+import { type IconProp } from '@fortawesome/fontawesome-svg-core'
+import { type Producto } from '../models/products.d'
+
 export interface ModalProps {
   show: boolean
   handleClose: () => void
@@ -26,4 +29,19 @@ export interface Rows {
 export interface ProductTableProps {
   Columns: Column[]
   Items: Rows[]
+}
+
+export interface ProductModalProps {
+  show: boolean
+  handleClose: () => void
+  productos: Producto[]
+}
+
+export interface CardProps {
+  name: string
+  icon: IconProp
+}
+
+export interface PaymentInfoModalProps extends ModalProps {
+  card: boolean
 }

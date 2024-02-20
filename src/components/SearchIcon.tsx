@@ -1,4 +1,3 @@
-import React from 'react'
 export const SearchIcon = (props: any): JSX.Element => (
   <svg
     aria-hidden="true"

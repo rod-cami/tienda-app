@@ -1,16 +1,15 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Card, CardHeader, CardBody } from '@nextui-org/react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { type IconProp } from '@fortawesome/fontawesome-svg-core'
 import { PaymentInfoModal } from './PaymentInfoModal'
+import { type CardProps } from '../types/types.d'
 
-interface CardProps {
-  name: string
-  icon: IconProp
-}
 export const PaymentCard = ({ name, icon }: CardProps): JSX.Element => {
+  // Initial stat of show and card
   const [show, setShow] = useState<boolean>(false)
   const [card] = useState<boolean>(name === 'Tarjeta')
+
+  // Show modal
   const handleShow = (): void => {
     setShow(!show)
   }

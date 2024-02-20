@@ -1,21 +1,19 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { type Users } from '../models/usuario.d'
 import { handleLogin } from '../services/servicesLogin'
 
 export const LoginForm = (): JSX.Element => {
+  // Initial state of the loading spinner and the Form (React Hook Forms library is used).
   const [loading] = useState(false)
   const { register, formState: { errors }, handleSubmit } = useForm<Users>()
 
+  // Function that logs in the user once the form is submitted.
   const handleSubmitForm: SubmitHandler<Users> = (data, e) => {
-    console.log(data)
     if (handleLogin(data)) {
       window.location.reload()
       window.location.href = '/home'
-      e.target.reset()
-    } else {
-      console.log('no entro')
     }
   }
 

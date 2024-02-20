@@ -1,7 +1,6 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
-import { Bars3Icon, ShoppingBagIcon, XMarkIcon } from '@heroicons/react/24/outline'
-import { SlideShoppingCart } from '../components/SlideShoppingCart'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faShopify } from '@fortawesome/free-brands-svg-icons'
 import { Link } from 'react-router-dom'
@@ -15,12 +14,6 @@ const classNames = (...classes: any[]): string => {
 }
 
 export const Navbar = (): JSX.Element => {
-  const [show, setShow] = useState<boolean>(false)
-  const handleShow = (): void => {
-    setShow(!show)
-  }
-
-  console.log(show)
   return (
     <>
       <Disclosure as="nav" className="bg-gray-800">
@@ -121,7 +114,6 @@ export const Navbar = (): JSX.Element => {
           </>
         )}
       </Disclosure>
-      <SlideShoppingCart show={show} handleClose={handleShow} />
     </>
   )
 }

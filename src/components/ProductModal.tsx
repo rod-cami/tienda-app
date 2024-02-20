@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Rows, Column, type ModalProps } from '../types/types.d'
-import { Button, ButtonGroup, Modal, ModalContent, ModalHeader, ModalBody} from '@nextui-org/react'
-import { type Producto, ProductsInventory } from '../models/products.d'
-import { Table } from 'react-bootstrap'
+import { type Rows, type Column, type ProductModalProps } from '../types/types.d'
+import { Modal, ModalContent, ModalHeader, ModalBody } from '@nextui-org/react'
 import { ProductTable } from './ProductTable'
+import { updateTableRows } from '../utils/productsUtils'
 
 const columns: Column[] = [
   {
@@ -28,42 +27,19 @@ const columns: Column[] = [
   }
 ]
 
-interface ProductModalProps extends ModalProps {
-  productos: Producto[]
-}
-
 export const ProductModal = ({ show, handleClose, productos }: ProductModalProps): JSX.Element => {
+  // Initial state of table rows
   const [items, setItems] = useState<Rows[]>([])
 
-  const handlePrice = (product: Producto): number => {
-    const priceString = (product.Articulo.Costo + (product.Articulo.Costo * product.Articulo.MargenGanancia) + (product.Articulo.Costo * product.Articulo.PorcentajeIVA)).toFixed(2)
-    return parseFloat(priceString)
-  }
-
-  const setItemsFunction = (): void => {
-    const itemsNew: Rows[] = []
-    for (const product of productos) {
-      const item: Rows = {
-        key: product.IdInventario,
-        nombre: `${product.Articulo.Descripcion} ${product.Articulo.Marca.Descripcion}`,
-        talle: product.Talle.Medida,
-        color: product.Color.Nombre,
-        precio: handlePrice(product),
-        cantidad: product.Cantidad
-      }
-      itemsNew.push(item)
-    }
-    setItems(itemsNew)
-  }
-
+  // Function that updates rows according to received products, storing only necessary data
   useEffect(() => {
-    setItemsFunction()
-    console.log(items)
-  }, productos)
+    const itemsNew: Rows[] = updateTableRows(productos)
+    setItems(itemsNew)
+  }, [productos])
 
   return (
     <>
-      <Modal size='xl' backdrop='blur' isOpen={show} onClose={handleClose}>
+      <Modal size='xl' backdrop='blur' isOpen={show} onClose={handleClose} scrollBehavior='inside'>
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">Seleccione el producto</ModalHeader>
             <ModalBody className='mb-2'>

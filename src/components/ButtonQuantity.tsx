@@ -1,9 +1,7 @@
 import { Button, ButtonGroup } from '@nextui-org/react'
-import React from 'react'
 import { type ButtonProps } from '../types/types.d'
 
 export const ButtonQuantity = ({ quantity, setQuantity, maxQuantity}: ButtonProps): JSX.Element => {
-
   const decreaseQuantity = (): void => {
     setQuantity(prevQuantity => Math.max(prevQuantity - 1, 1))
   }

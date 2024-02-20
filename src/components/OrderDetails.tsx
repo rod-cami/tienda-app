@@ -1,19 +1,7 @@
-import { ProductsInventory } from '../models/products.d'
-import { type Rows } from '../types/types.d'
-import { calculateTotalPrices } from '../utils/productsUtils'
+import { getSalesLines, calculateTotalPrices } from '../utils/paymentUtils'
 
 export const OrderDetails = (): JSX.Element => {
-  const productsCarrito: Rows[] = JSON.parse(localStorage.getItem('products'))
-  const products = []
-  for (const pcto of ProductsInventory) {
-    console.log(pcto)
-    for (const pctoCarrito of productsCarrito) {
-      console.log(pcto.IdInventario == pctoCarrito.key)
-      if (pcto.IdInventario == pctoCarrito.key) {
-        products.push(pctoCarrito)
-      }
-    }
-  }
+  const products = getSalesLines()
   return (
     <div className='mx-4 mt-3 xl:mt-4'>
       <div className='w-100'>

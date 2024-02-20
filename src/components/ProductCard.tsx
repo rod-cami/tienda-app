@@ -1,20 +1,22 @@
 import { Card, CardFooter, Input } from '@nextui-org/react'
 import { ProductModal } from './ProductModal'
-import { useState } from 'react'
+import { type ChangeEvent, useState } from 'react'
 import { type ArticuloEx, ListArticulos } from '../models/articulo.d'
-import { type Producto, ProductsInventory } from '../models/products.d'
-import { SearchButton } from './SearchButton'
+import { type Producto } from '../models/products.d'
 import { SearchIcon } from './SearchIcon'
+import { updateListProducts } from '../utils/productsUtils'
 
 export const ProductCard = (): JSX.Element => {
+  // Inicial state of articles, products, and the product modal.
   const [articles, setArticles] = useState(ListArticulos)
   const [productos, setProductos] = useState<Producto[]>([])
   const [show, setShow] = useState<boolean>(false)
 
+  // Search button
   const [searchArticle, setSearchArticle] = useState('')
   const [tableArticles] = useState<ArticuloEx[]>(articles)
 
-  const handleChangeArticle = (e): void => {
+  const handleChangeArticle = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchArticle(e.target.value)
     filterArticles(e.target.value)
   }
@@ -25,22 +27,15 @@ export const ProductCard = (): JSX.Element => {
       const codigo = x.Codigo.toString()
       return codigo.includes(searchTerm)
     })
-
     setArticles(result)
   }
-  const handleShow = (id: number): void => {
-    setListProducts(id)
-    setShow(!show)
-  }
 
-  const setListProducts = (id: number): void => {
-    const newList = []
-    for (const product of ProductsInventory) {
-      if (id === product.Articulo.Codigo) {
-        newList.push(product)
-        setProductos(newList)
-      }
-    }
+  // Show Modal
+  const handleShow = (id: number): void => {
+    const upListProducts: Producto[] = updateListProducts(id)
+    console.log(upListProducts)
+    setProductos(upListProducts)
+    setShow(!show)
   }
 
   return (
@@ -71,7 +66,7 @@ export const ProductCard = (): JSX.Element => {
               '!cursor-text'
             ]
           }}
-          placeholder="Type to search..."
+          placeholder="Buscar"
           startContent={
             <SearchIcon className="text-black/50 mb-0.5 dark:text-white/90 text-slate-400 pointer-events-none flex-shrink-0" />
           }
