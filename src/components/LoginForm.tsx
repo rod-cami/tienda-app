@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { type SubmitHandler, useForm } from 'react-hook-form'
-import { type Users } from '../models/usuario.d'
+import { type UsuarioEx } from '../models/usuario.d'
 import { handleLogin } from '../services/servicesLogin'
 
 export const LoginForm = (): JSX.Element => {
   // Initial state of the loading spinner and the Form (React Hook Forms library is used).
   const [loading] = useState(false)
-  const { register, formState: { errors }, handleSubmit } = useForm<Users>()
+  const { register, formState: { errors }, handleSubmit } = useForm<UsuarioEx>()
 
   // Function that logs in the user once the form is submitted.
-  const handleSubmitForm: SubmitHandler<Users> = (data, e) => {
+  const handleSubmitForm: SubmitHandler<UsuarioEx> = (data, e) => {
     if (handleLogin(data)) {
       window.location.reload()
       window.location.href = '/home'
@@ -27,7 +27,7 @@ export const LoginForm = (): JSX.Element => {
           minLength={2}
           maxLength={300}
             {
-            ...register('username', {
+            ...register('NombreUsuario', {
               required: {
                 value: true,
                 message: 'Campo requerido'
@@ -47,7 +47,7 @@ export const LoginForm = (): JSX.Element => {
             })}
         ></Form.Control>
         <Form.Text className="text-danger tamLetra d-block">
-          {errors.username?.message}
+          {errors.NombreUsuario?.message}
         </Form.Text>
       </Form.Group>
       <Form.Group className='col-12 mt-2'>
@@ -59,7 +59,7 @@ export const LoginForm = (): JSX.Element => {
           minLength={4}
           maxLength={16}
             {
-            ...register('password', {
+            ...register('Contraseña', {
               required: {
                 value: true,
                 message: 'Campo requerido'
@@ -79,7 +79,7 @@ export const LoginForm = (): JSX.Element => {
             })}
         ></Form.Control>
         <Form.Text className="text-danger tamLetra">
-          {errors.password?.message}
+          {errors.Contraseña?.message}
         </Form.Text>
       </Form.Group>
       <div className='mt-8 flex flex-col gap-y-4'>

@@ -1,4 +1,5 @@
 import { ProductsInventory, type Producto } from '../models/products.d'
+import { UsuarioEx } from '../models/usuario.d'
 import { type Rows } from '../types/types.d'
 
 export const calculatePrice = (product: Producto): number => {
@@ -23,9 +24,10 @@ export const updateTableRows = (products: Producto[]): Rows[] => {
 }
 
 export const updateListProducts = (id: number): Producto[] => {
+  const user: UsuarioEx = JSON.parse(`${localStorage.getItem('user')}`)
   const newList: Producto[] = []
   for (const product of ProductsInventory) {
-    if (id === product.Articulo.Codigo) {
+    if (id === product.Articulo.Codigo && user.Empleado.IdSucursal === product.Sucursal.IdSucursal) {
       newList.push(product)
     }
   }

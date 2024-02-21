@@ -1,6 +1,6 @@
-import { type Categoria } from './categoria.d'
-import { type Marca } from './marca.d'
-import { type TipoTalle } from './tipoTalle.d'
+import { CategoriaEjemplo, type Categoria } from './categoria.d'
+import { MarcaEjemplo, type Marca } from './marca.d'
+import { TipoTalles, type TipoTalle } from './tipoTalle.d'
 
 export interface Articulo {
   IdArticulo: number
@@ -34,18 +34,9 @@ export const ListArticulos: ArticuloEx[] = [
     Costo: 15000.78,
     PorcentajeIVA: 0.21,
     MargenGanancia: 0.15,
-    Categoria: {
-      IdCategoria: 1,
-      Descripcion: 'Remera'
-    },
-    Marca: {
-      IdMarca: 1,
-      Descripcion: 'Adidas'
-    },
-    TipoTalle: {
-      IdTipoTalle: 1,
-      Descripcion: 'Americano'
-    }
+    Categoria: CategoriaEjemplo,
+    Marca: MarcaEjemplo[0],
+    TipoTalle: TipoTalles[0]
   },
   {
     IdArticulo: 2,
@@ -54,17 +45,8 @@ export const ListArticulos: ArticuloEx[] = [
     Costo: 15000.78,
     PorcentajeIVA: 0.21,
     MargenGanancia: 0.15,
-    Categoria: {
-      IdCategoria: 1,
-      Descripcion: 'Remera'
-    },
-    Marca: {
-      IdMarca: 1,
-      Descripcion: 'Nike'
-    },
-    TipoTalle: {
-      IdTipoTalle: 1,
-      Descripcion: 'Americano'
-    }
+    Categoria: CategoriaEjemplo,
+    Marca: MarcaEjemplo[1],
+    TipoTalle: TipoTalles[0]
   }
 ]

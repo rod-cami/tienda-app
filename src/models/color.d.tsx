@@ -9,15 +9,17 @@ export interface Colors {
   selectedClass: string
 }
 
-export const ColorEx: Colors[] = [
+export const ColorEjemplo: Color[] = [
   {
-    color: 'Rojo',
-    class: 'bg-red',
-    selectedClass: 'ring-red-500'
+    IdColor: 1,
+    Nombre: 'Rojo'
   },
   {
-    color: 'Azul',
-    class: 'bg-blue',
-    selectedClass: 'ring-blue-500'
+    IdColor: 2,
+    Nombre: 'Azul'
+  },
+  {
+    IdColor: 3,
+    Nombre: 'Verde'
   }
 ]
