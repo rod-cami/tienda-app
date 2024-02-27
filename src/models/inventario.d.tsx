@@ -1,8 +1,13 @@
+import { type ArticuloEx } from './articulo.d'
+import { type Color } from './color.d'
+import { type Sucursal } from './sucursal.d'
+import { type Talle } from './talle.d'
+
 export interface Inventario {
-  IdInventario: number
-  Cantidad: number
-  IdSucursal: number
-  IdColor: number
-  IdTalle: number
-  IdArticulo: number
+  idInventario: number
+  cantidad: number
+  sucursal: Sucursal
+  color: Color
+  talle: Talle
+  articulo: ArticuloEx
 }

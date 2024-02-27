@@ -1,36 +1,25 @@
-import { EmpleadoEjemplo, EmpleadoEjemplo2, type Empleado } from './empleado.d'
-import { RolEjemplo, type Rol } from './rol.d'
+import { type Empleado } from './empleado.d'
+import { type Rol } from './rol.d'
 
 export interface Usuario {
-  IdUsuario: number
-  NombreUsuario: string
-  Contraseña: string
-  IdRol: number | null
-  IdEmpleado: number
+  idUsuario: number
+  nombreUsuario: string
+  contraseña: string
+  idRol: number | null
+  idEmpleado: number
 }
 
 // User de prueba
 export interface UsuarioEx {
-  IdUsuario: number
-  NombreUsuario: string
-  Contraseña: string
-  Rol: Rol
-  Empleado: Empleado
+  idUsuario: number
+  nombreUsuario: string
+  contraseña: string
+  rol: Rol
+  empleado: Empleado
 }
 
-export const User: UsuarioEx[] = [
-  {
-    IdUsuario: 1,
-    NombreUsuario: 'cami',
-    Contraseña: 'cami123',
-    Rol: RolEjemplo,
-    Empleado: EmpleadoEjemplo
-  },
-  {
-    IdUsuario: 2,
-    NombreUsuario: 'cami2',
-    Contraseña: 'cami123',
-    Rol: RolEjemplo,
-    Empleado: EmpleadoEjemplo2
-  }
-]
+export interface UsuarioLogin {
+  Username: string
+  Password: string
+  PuntoDeVentaId: string
+}

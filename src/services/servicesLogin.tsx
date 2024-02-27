@@ -1,13 +1,34 @@
-import { User, type UsuarioEx } from '../models/usuario.d'
+import { URL } from '../consts/consts'
+import { getPointOfSale, logIn, logOut } from '../api/sessionApi'
+import { type UsuarioLogin } from '../models/usuario.d'
+import { type PuntoDeVentaSimple } from '../models/puntoDeVenta.d'
+import { type Sesion } from '../models/sesion.d'
 
-export const handleLogin = ({ NombreUsuario, Contraseña }: Pick<UsuarioEx, 'NombreUsuario' | 'Contraseña'>): boolean => {
-  for (const user of User) {
-    console.log(user)
-    if (NombreUsuario === user.NombreUsuario && Contraseña === user.Contraseña) {
-      console.log('entro ', user)
-      localStorage.setItem('user', JSON.stringify(user))
-      return true
-    }
+export const handleLogIn = async (User: UsuarioLogin): Promise<boolean> => {
+  const session = await logIn({ URL: `${URL}/Sesion/IniciarSesion`, data: User })
+  if (session !== false) {
+    localStorage.setItem('sesion', JSON.stringify(session))
+    return true
   }
   return false
+}
+
+export const handleLogOut = async (): Promise<void> => {
+  const sessionO: Sesion = JSON.parse(`${localStorage.getItem('sesion')}`)
+  const session = await logOut({ URL: `${URL}/Sesion/CerrarSesion`, sesionId: `${sessionO.idSesion}` })
+  if (session) {
+    localStorage.removeItem('sesion')
+  }
+}
+
+export const fetchPOS = async (): Promise<PuntoDeVentaSimple[]> => {
+  const POS = await getPointOfSale({ URL: `${URL}/PuntoDeVenta` })
+  const simplifiedPOS: PuntoDeVentaSimple[] = POS
+    .filter(pos => pos.sucursal.idSucursal === 1 && pos.habilitado)
+    .map(pos => ({
+      idPuntoDeVenta: pos.idPuntoDeVenta,
+      numeroPtoVenta: pos.numeroPtoVenta
+    }))
+
+  return simplifiedPOS
 }

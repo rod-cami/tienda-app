@@ -1,11 +1,11 @@
 export interface Venta {
-  IdVenta: number
-  Fecha: Date
-  Monto: number
-  Estado: string
-  Observaciones: string | null
-  IdCliente: number
-  IdUsuario: number
-  IdTipoDeComprobante: number
-  IdPuntoVenta: number
+  idVenta: number
+  fecha: Date
+  monto: number
+  estado: string
+  observaciones: string | null
+  idCliente: number
+  idUsuario: number
+  idTipoDeComprobante: number
+  idPuntoVenta: number
 }

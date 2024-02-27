@@ -1,5 +1,5 @@
 export interface CondicionTributaria {
-  IdCondicionTributaria: number
-  Descripcion: string
-  IdTipoDeComprobante: number
+  idCondicionTributaria: number
+  descripcion: string
+  idTipoDeComprobante: number
 }

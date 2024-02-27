@@ -1,4 +1,4 @@
 export interface Comprobante {
-  IdComprobante: number
-  IdVenta: number
+  idComprobante: number
+  idVenta: number
 }

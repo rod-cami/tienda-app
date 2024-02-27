@@ -1,6 +1,6 @@
 export interface LineaDeVenta {
-  IdLineaDeVenta: number
-  Cantidad: number
-  IdInventario: number
-  IdVenta: number
+  idLineaDeVenta: number
+  cantidad: number
+  idInventario: number
+  idVenta: number
 }

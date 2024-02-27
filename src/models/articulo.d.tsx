@@ -15,38 +15,13 @@ export interface Articulo {
 }
 
 export interface ArticuloEx {
-  IdArticulo: number
-  Codigo: number
-  Descripcion: string
-  Costo: number
-  PorcentajeIVA: number
-  MargenGanancia: number
-  Categoria: Categoria
-  Marca: Marca
-  TipoTalle: TipoTalle
+  idArticulo: number
+  codigo: string
+  descripcion: string
+  costo: number
+  porcentajeIVA: number
+  margenGanancia: number
+  categoria: Categoria
+  marca: Marca
+  tipoTalle: TipoTalle
 }
-
-export const ListArticulos: ArticuloEx[] = [
-  {
-    IdArticulo: 1,
-    Codigo: 1001,
-    Descripcion: 'Remera',
-    Costo: 15000.78,
-    PorcentajeIVA: 0.21,
-    MargenGanancia: 0.15,
-    Categoria: CategoriaEjemplo,
-    Marca: MarcaEjemplo[0],
-    TipoTalle: TipoTalles[0]
-  },
-  {
-    IdArticulo: 2,
-    Codigo: 1002,
-    Descripcion: 'Remera',
-    Costo: 15000.78,
-    PorcentajeIVA: 0.21,
-    MargenGanancia: 0.15,
-    Categoria: CategoriaEjemplo,
-    Marca: MarcaEjemplo[1],
-    TipoTalle: TipoTalles[0]
-  }
-]

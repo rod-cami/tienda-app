@@ -11,6 +11,29 @@ export interface ButtonProps {
   setQuantity: () => void
   maxQuantity: number
 }
+export interface ProductTableProps {
+  Columns: Column[]
+  Items: Rows[]
+}
+
+export interface ProductModalProps {
+  show: boolean
+  handleClose: () => void
+  productos: Inventario[]
+}
+
+export interface PaymentInfoModalProps extends ModalProps {
+  card: boolean
+}
+
+export interface CardProps {
+  name: string
+  icon: IconProp
+}
+
+export interface ApiProps {
+  URL: string
+}
 
 export interface Column {
   key: string
@@ -24,24 +47,5 @@ export interface Rows {
   color: string
   precio: number
   cantidad: number
-}
-
-export interface ProductTableProps {
-  Columns: Column[]
-  Items: Rows[]
-}
-
-export interface ProductModalProps {
-  show: boolean
-  handleClose: () => void
-  productos: Producto[]
-}
-
-export interface CardProps {
-  name: string
-  icon: IconProp
-}
-
-export interface PaymentInfoModalProps extends ModalProps {
-  card: boolean
+  subtotal?: number
 }

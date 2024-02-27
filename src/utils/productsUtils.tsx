@@ -1,36 +1,42 @@
-import { ProductsInventory, type Producto } from '../models/products.d'
-import { UsuarioEx } from '../models/usuario.d'
+import { type Inventario } from '../models/inventario.d'
+import { type Sesion } from '../models/sesion.d'
+import { getArticlesInventory } from '../services/servicesProducts'
 import { type Rows } from '../types/types.d'
 
-export const calculatePrice = (product: Producto): number => {
-  const priceString = (product.Articulo.Costo + (product.Articulo.Costo * product.Articulo.MargenGanancia) + (product.Articulo.Costo * product.Articulo.PorcentajeIVA)).toFixed(2)
+export const calculatePrice = (product: Inventario): number => {
+  const priceString = (product.articulo.costo + (product.articulo.costo * product.articulo.margenGanancia) + (product.articulo.costo * product.articulo.porcentajeIVA)).toFixed(2)
   return parseFloat(priceString)
 }
 
-export const updateTableRows = (products: Producto[]): Rows[] => {
+export const updateTableRows = (products: Inventario[]): Rows[] => {
   const itemsNew: Rows[] = []
   for (const product of products) {
     const item: Rows = {
-      key: product.IdInventario,
-      nombre: `${product.Articulo.Descripcion} ${product.Articulo.Marca.Descripcion}`,
-      talle: `${product.Talle.Medida}`,
-      color: product.Color.Nombre,
+      key: product.idInventario,
+      nombre: `${product.articulo.descripcion} ${product.articulo.marca.descripcion}`,
+      talle: `${product.talle.medida}`,
+      color: product.color.nombre,
       precio: calculatePrice(product),
-      cantidad: product.Cantidad
+      cantidad: product.cantidad
     }
     itemsNew.push(item)
   }
   return itemsNew
 }
 
-export const updateListProducts = (id: number): Producto[] => {
-  const user: UsuarioEx = JSON.parse(`${localStorage.getItem('user')}`)
-  const newList: Producto[] = []
-  for (const product of ProductsInventory) {
-    if (id === product.Articulo.Codigo && user.Empleado.IdSucursal === product.Sucursal.IdSucursal) {
+export const updateListProducts = async (id: string): Promise<Inventario[]> => {
+  const sesion: Sesion = JSON.parse(`${localStorage.getItem('sesion')}`)
+  const inventoryListPromise: Promise<Inventario[]> = getArticlesInventory()
+  const inventoryList: Inventario[] = await inventoryListPromise
+  console.log(inventoryList)
+  const newList: Inventario[] = []
+
+  for (const product of inventoryList) {
+    if (id === product.articulo.codigo && sesion.puntoDeVenta.idSucursal === product.sucursal.idSucursal) {
       newList.push(product)
     }
   }
+
   return newList
 }
 

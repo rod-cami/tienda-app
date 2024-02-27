@@ -1,15 +1,4 @@
 export interface Marca {
-  IdMarca: number
-  Descripcion: string
+  idMarca: number
+  descripcion: string
 }
-
-export const MarcaEjemplo: Marca[] = [
-  {
-    IdMarca: 1,
-    Descripcion: 'Adidas'
-  },
-  {
-    IdMarca: 2,
-    Descripcion: 'Nike'
-  }
-]

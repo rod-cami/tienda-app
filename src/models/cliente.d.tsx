@@ -1,23 +1,23 @@
 export interface Cliente {
-  IdCliente: number
-  Dni: string
-  Cuil: string
-  Nombre: string
-  Apellido: string
-  Telefono: string | null
-  Email: string | null
-  Domicilio: string
-  IdCondicionTributaria: number | null
+  idCliente: number
+  dni: string
+  cuil: string
+  nombre: string
+  apellido: string
+  telefono: string | null
+  email: string | null
+  domicilio: string
+  idCondicionTributaria: number | null
 }
 
 export interface ClienteEx {
-  IdCliente: number
-  Dni: string
-  Cuil: string
-  Nombre: string
-  Apellido: string
-  IdCondicionTributaria: number | null
-  Tarjeta: number
+  idCliente: number
+  dni: string
+  cuil: string
+  nombre: string
+  apellido: string
+  idCondicionTributaria: number | null
+  tarjeta: number
   CVC: number
-  Fecha_Expiracion: Date
+  fecha_Expiracion: Date
 }
