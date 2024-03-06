@@ -7,11 +7,12 @@ import { type PuntoDeVentaSimple } from '../models/puntoDeVenta.d'
 
 export const LoginForm = (): JSX.Element => {
   // Initial state of the loading spinner and the Form (React Hook Forms library is used).
-  const [loading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const { register, formState: { errors }, handleSubmit } = useForm<UsuarioLogin>()
 
   // Function that logs in the user once the form is submitted.
   const handleSubmitForm: SubmitHandler<UsuarioLogin> = async (data, e) => {
+    setLoading(true)
     const access = await handleLogIn(data)
     if (access) {
       window.location.reload()
@@ -34,7 +35,7 @@ export const LoginForm = (): JSX.Element => {
   return (
     <Form className='row m-0 p-1' onSubmit={ handleSubmit( handleSubmitForm ) }>
       <Form.Group className="col-12 mt-3">
-        <Form.Label className='text-sm lg:text-large fw-light'>Usuario</Form.Label>
+        <Form.Label className='text-sm lg:text-large fw-light text-black'>Usuario</Form.Label>
         <Form.Control
           placeholder="Ingrese nombre de usuario"
           className="input w-full border-2 border-gray-100 rounded-xl p-3 mt-1 text-black"
@@ -65,7 +66,7 @@ export const LoginForm = (): JSX.Element => {
         </Form.Text>
       </Form.Group>
       <Form.Group className='col-12 mt-2'>
-        <Form.Label className='text-sm lg:text-large fw-light'>Contraseña</Form.Label>
+        <Form.Label className='text-sm lg:text-large fw-light text-black'>Contraseña</Form.Label>
         <Form.Control
           placeholder="Ingrese contraseña"
           className='w-full border-2 border-gray-100 rounded-xl p-3 mt-1 '
@@ -97,7 +98,7 @@ export const LoginForm = (): JSX.Element => {
         </Form.Text>
       </Form.Group>
       <Form.Group className="col-12 mt-2">
-          <Form.Label className='text-sm lg:text-large fw-light'>Punto de Venta</Form.Label>
+          <Form.Label className='text-sm lg:text-large fw-light text-black'>Punto de Venta</Form.Label>
           <Form.Select
             className='w-full border-2 border-gray-100 rounded-xl p-3 mt-1 '
             {...register('PuntoDeVentaId')}>
@@ -110,7 +111,7 @@ export const LoginForm = (): JSX.Element => {
           </Form.Text>
         </Form.Group>
       <div className='mt-8 flex flex-col gap-y-4'>
-        <button type="submit" className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-3 rounded-xl text-black font-bold text-lg bg-white'> { loading ? <Spinner color='light'></Spinner> : <p className='fw-light'> Ingresar </p>}</button>
+        <button type="submit" className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-3 rounded-xl text-white font-bold text-lg bg-slate-800'> { loading ? <Spinner color='light'></Spinner> : <p className='text-white fw-semibold'> Ingresar </p>}</button>
       </div>
     </Form>
   )

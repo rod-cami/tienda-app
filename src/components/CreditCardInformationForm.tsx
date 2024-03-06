@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Form, Spinner } from 'react-bootstrap'
 import { type SubmitHandler, useForm } from 'react-hook-form'
 import { type ClienteEx } from '../models/cliente.d'
+import { getTaxCondition } from '../services/servicesSales'
+import { type CondicionTributaria } from '../models/condicionTributaria.d'
 
 export const CreditCardInformationForm = (): JSX.Element => {
   const { register, formState: { errors }, handleSubmit } = useForm<ClienteEx>()
@@ -12,11 +14,23 @@ export const CreditCardInformationForm = (): JSX.Element => {
     console.log(data)
   }
 
+  //
+  const [taxs, setTaxs] = useState<CondicionTributaria[]>([])
+
+  const fetchData = async (): Promise<void> => {
+    const result = await getTaxCondition()
+    setTaxs(result)
+  }
+
+  useEffect(() => {
+    fetchData()
+  }, [taxs])
+
   return (
     <div>
       <p>Por favor, completa el siguiente formulario con tu información personal. Todos los campos marcados con (*) son obligatorios.</p>
       <Form className='row m-0 p-1' onSubmit={ handleSubmit( handleSubmitForm ) }>
-      <Form.Group className="col-12 col-md-6 mt-3">
+        <Form.Group className="col-12 col-md-6 mt-3">
           <Form.Label className='text-sm lg:text-large fw-light'>Nombre(*)</Form.Label>
           <Form.Control
             placeholder="Ingrese su nombre"
@@ -24,7 +38,7 @@ export const CreditCardInformationForm = (): JSX.Element => {
             minLength={2}
             maxLength={300}
               {
-              ...register('Nombre', {
+              ...register('nombre', {
                 required: {
                   value: true,
                   message: 'Campo requerido'
@@ -44,7 +58,7 @@ export const CreditCardInformationForm = (): JSX.Element => {
               })}
           ></Form.Control>
           <Form.Text className="text-danger d-block">
-            {errors.Nombre?.message}
+            {errors.nombre?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className="col-12 col-md-6 mt-3">
@@ -55,7 +69,7 @@ export const CreditCardInformationForm = (): JSX.Element => {
             minLength={2}
             maxLength={300}
               {
-              ...register('Apellido', {
+              ...register('apellido', {
                 required: {
                   value: true,
                   message: 'Campo requerido'
@@ -75,7 +89,7 @@ export const CreditCardInformationForm = (): JSX.Element => {
               })}
           ></Form.Control>
           <Form.Text className="text-danger d-block">
-            {errors.Apellido?.message}
+            {errors.apellido?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className='col-12 col-md-4 mt-2'>
@@ -86,7 +100,7 @@ export const CreditCardInformationForm = (): JSX.Element => {
             minLength={4}
             maxLength={16}
               {
-              ...register('Dni', {
+              ...register('dni', {
                 required: {
                   value: true,
                   message: 'Campo requerido'
@@ -99,14 +113,14 @@ export const CreditCardInformationForm = (): JSX.Element => {
                   value: 4,
                   message: 'Debe ser mayor a 4'
                 },
-                pattern: {
+                pattern: { 
                   value: /^(?:\d{7,8}|(?:\d{2}\.){2}\d{3,4})$/i,
                   message: 'Este campo solo acepta DNI'
                 }
               })}
           ></Form.Control>
           <Form.Text className="text-danger">
-            {errors.Dni?.message}
+            {errors.dni?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className='col-12 col-md-4 mt-2'>
@@ -117,7 +131,7 @@ export const CreditCardInformationForm = (): JSX.Element => {
             minLength={4}
             maxLength={16}
               {
-              ...register('Cuil', {
+              ...register('cuil', {
                 required: {
                   value: true,
                   message: 'Campo requerido'
@@ -137,19 +151,20 @@ export const CreditCardInformationForm = (): JSX.Element => {
               })}
           ></Form.Control>
           <Form.Text className="text-danger">
-            {errors.Cuil?.message}
+            {errors.cuil?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className="col-12 col-md-4 mt-2">
           <Form.Label className='text-sm lg:text-large fw-light'>Condición Tributaria (*)</Form.Label>
           <Form.Select
             className='w-full border-2 border-gray-100 rounded-xl p-3 mt-1 '
-            {...register('IdCondicionTributaria')}>
-            <option value='F'>Femenino</option>
-            <option value='M'>Masculino</option>
+            {...register('idCondicionTributaria')}>
+            {taxs.map(tax => 
+              <option key={tax.idCondicionTributaria} value={tax.idCondicionTributaria}>{tax.descripcion}</option>
+            )}
           </Form.Select>
           <Form.Text className="text-danger">
-            {errors.IdCondicionTributaria?.message}
+            {errors.idCondicionTributaria?.message}
           </Form.Text>
         </Form.Group>
         <Form.Group className='col-12 mt-2'>

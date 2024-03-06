@@ -16,6 +16,13 @@ export const getSalesLines = (): Rows[] => {
   return products
 }
 
+export const deleteSalesLine = (index: number): Rows[] => {
+  const productsLineSale: Rows[] = JSON.parse(`${localStorage.getItem('products')}`)
+  const updatedProducts = productsLineSale.filter((_, i) => i !== index)
+  localStorage.setItem('products', JSON.stringify(updatedProducts))
+  return updatedProducts
+}
+
 export const calculateTotalPrices = (products: Rows[]): number => {
   let total = 0
   for (const product of products) {

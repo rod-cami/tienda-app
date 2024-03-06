@@ -1,29 +1,63 @@
-import { getSalesLines, calculateTotalPrices } from '../utils/paymentUtils'
+import { useEffect, useState } from 'react'
+import { getSalesLines, calculateTotalPrices, deleteSalesLine } from '../utils/paymentUtils'
+import { PaymentModal } from './PaymentModal'
+import { Button } from '@nextui-org/react'
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export const OrderDetails = (): JSX.Element => {
-  const products = getSalesLines()
+  const [payButton, setPayButton] = useState<boolean>(true)
+  const [products, setProducts] = useState(getSalesLines())
+
+  useEffect(() => {
+    setPayButton(!(products.length > 0))
+  }, [products])
+
+  const handleDelete = (index: number): void => {
+    console.log('hola, ', index)
+    const updatedProducts = deleteSalesLine(index)
+    setProducts(updatedProducts)
+  }
+
+  // Initial stat of show and card
+  const [show, setShow] = useState<boolean>(false)
+
+  // Show modal
+  const handleShow = (): void => {
+    setShow(!show)
+  }
   return (
-    <div className='mx-4 mt-3 xl:mt-4'>
-      <div className='w-100'>
-        <dl>
-          <div className="px-2 pt-3 pb-2 d-flex justify-between border-b border-gray-400">
-            <dt className="text-sm font-medium leading-6 text-white">Producto</dt>
-            <dt className="text-sm font-medium leading-6 text-white">Precio</dt>
+    <>
+      <div className='mx-4 mt-3 xl:mt-4'>
+        <div className='w-100'>
+          <dl>
+            <div className="px-2 pt-3 pb-2 d-flex justify-between border-b border-gray-400">
+              <dt className="text-sm font-medium leading-6">Producto (color, talle, cantidad)</dt>
+              <dt className="text-sm font-medium leading-6">Precio</dt>
+              <dt className="text-sm font-medium leading-6">Eliminar</dt>
+            </div>
+            {
+              products.map((item, index) => (
+                <div key={index} className="px-2 py-3 d-flex justify-between">
+                    <dd className="text-sm ">{item.nombre} - {item.color} - {item.talle} x {item.cantidad}</dd>
+                    <dd className="text-sm text-slate-800 sm:col-span-2 sm:mt-0">${(item.precio).toFixed(2)}</dd>
+                    <dd className="text-sm font-medium leading-6 mr-4"><FontAwesomeIcon onClick={ () => { handleDelete(index) } } className='text-red-600 cursor-pointer' icon={faTrashCan} /></dd>
+                </div>
+              ))
+            }
+            <div className="px-2 py-6 d-flex justify-between border-t border-gray-400">
+              <dt className="text-sm font-medium leading-6">Total</dt>
+              <dd className="text-sm leading-6 sm:col-span-2 sm:mt-0">${(calculateTotalPrices(products).toFixed(2))}</dd>
+            </div>
+          </dl>
+          <div className='flex justify-end'>
+            <Button isDisabled={payButton} color="warning" variant="ghost" onClick={() => { handleShow() }}>
+              Pagar
+            </Button>
           </div>
-          {
-            products.map((item, index) => (
-              <div key={index} className="px-2 py-3 d-flex justify-between">
-                <dt className="mr-5 text-sm font-medium leading-6 text-white">{item.nombre} - {item.color} - {item.talle} x {item.cantidad}</dt>
-                <dd className="ml-5 text-sm leading-6 text-slate-200 sm:col-span-2 sm:mt-0">${(item.precio).toFixed(2)}</dd>
-              </div>
-            ))
-          }
-          <div className="px-2 py-6 d-flex justify-between border-t border-gray-400">
-            <dt className="text-sm font-medium leading-6 text-white">Subtotal</dt>
-            <dd className="text-sm leading-6 text-white sm:col-span-2 sm:mt-0">${(calculateTotalPrices(products).toFixed(2))}</dd>
-          </div>
-        </dl>
+        </div>
       </div>
-    </div>
+      <PaymentModal show={show} handleClose={handleShow}/>
+    </>
   )
 }

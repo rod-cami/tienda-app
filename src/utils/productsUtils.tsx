@@ -1,10 +1,13 @@
 import { type Inventario } from '../models/inventario.d'
 import { type Sesion } from '../models/sesion.d'
 import { getArticlesInventory } from '../services/servicesProducts'
+import { addSaleLine } from '../services/servicesSales'
 import { type Rows } from '../types/types.d'
 
 export const calculatePrice = (product: Inventario): number => {
-  const priceString = (product.articulo.costo + (product.articulo.costo * product.articulo.margenGanancia) + (product.articulo.costo * product.articulo.porcentajeIVA)).toFixed(2)
+  const netoGravado = product.articulo.costo + (product.articulo.costo * (product.articulo.margenGanancia / 100))
+  const iva = netoGravado * (product.articulo.porcentajeIVA / 100)
+  const priceString = (netoGravado + iva).toFixed(2)
   return parseFloat(priceString)
 }
 
@@ -40,11 +43,15 @@ export const updateListProducts = async (id: string): Promise<Inventario[]> => {
   return newList
 }
 
-export const updateSaleLine = (product: Rows, quantity: number): void => {
+export const updateSaleLine = async (product: Rows, quantity: number): Promise<boolean> => {
   const productsCarrito = JSON.parse(`${localStorage.getItem('products')}`)
   const newProduct = product
   newProduct.cantidad = quantity
   newProduct.precio = quantity * product.precio
   productsCarrito.push(newProduct)
   localStorage.setItem('products', JSON.stringify(productsCarrito))
+
+  const res = await addSaleLine(`${quantity}`, `${product.key}`)
+
+  return res
 }

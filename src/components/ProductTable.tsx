@@ -19,9 +19,13 @@ export const ProductTable = ({ Columns, Items }: ProductTableProps): JSX.Element
   }
 
   // Function triggered when the add button is pressed, saving the selected data in localStorage.
-  const addSaleLine = (): void => {
-    updateSaleLine(Items[key], quantity)
-    window.location.reload()
+  const addSaleLine = async (): Promise<void> => {
+    const result = await updateSaleLine(Items[key], quantity)
+    if (result) {
+      window.location.reload()
+    } else {
+      console.log('no se agreggo')
+    }
   }
 
   return (
@@ -57,7 +61,7 @@ export const ProductTable = ({ Columns, Items }: ProductTableProps): JSX.Element
       </Table>
       <div className='mt-2 d-flex align-items-center justify-between'>
         <ButtonQuantity quantity={quantity} setQuantity={setQuantity} maxQuantity={maxQuantity}/>
-        <Button color="warning" onClick={addSaleLine}>
+        <Button color="warning" onClick={ addSaleLine }>
           Agregar
         </Button>
       </div>

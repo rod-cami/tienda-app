@@ -17,7 +17,8 @@ export const handleLogOut = async (): Promise<void> => {
   const sessionO: Sesion = JSON.parse(`${localStorage.getItem('sesion')}`)
   const session = await logOut({ URL: `${URL}/Sesion/CerrarSesion`, sesionId: `${sessionO.idSesion}` })
   if (session) {
-    localStorage.removeItem('sesion')
+    localStorage.removeItem('sale')
+    localStorage.removeItem('session')
   }
 }
 

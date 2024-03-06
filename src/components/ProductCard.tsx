@@ -16,7 +16,7 @@ export const ProductCard = (): JSX.Element => {
 
   // Search button
   const [searchArticle, setSearchArticle] = useState('')
-  const [tableArticles] = useState<ArticuloEx[]>(articles)
+  const [tableArticles, setTableArticles] = useState<ArticuloEx[]>([])
 
   const handleChangeArticle = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchArticle(e.target.value)
@@ -46,17 +46,18 @@ export const ProductCard = (): JSX.Element => {
   const fetchData = async (): Promise<void> => {
     const result = await getArticles()
     setArticles(result)
+    setTableArticles(result)
   }
 
   useEffect(() => {
     fetchData()
-  }, [articles])
+  }, [])
 
   return (
     <>
-      <div className='w-25'>
+      <div className='w-25 mt-3'>
         <Input
-          label="Search"
+          label="Buscar"
           isClearable
           radius="lg"
           classNames={{
@@ -88,11 +89,12 @@ export const ProductCard = (): JSX.Element => {
           onChange={handleChangeArticle}
         />
       </div>
-      <div className="gap-2 grid grid-cols-1 sm:grid-cols-3 my-4 ">
+      <div className="gap-2 grid grid-cols-1  my-4 ">
         {articles.map((item, index) => (
           <Card shadow="sm" key={index} isPressable onPress={() => { handleShow(item.codigo) }}>
-            <CardFooter className="text-small justify-between">
-              <b>{item.codigo} {item.descripcion} {item.marca.descripcion}</b>
+            <CardFooter className="text-small flex justify-between">
+              <b>{item.codigo} - {item.descripcion}</b>
+              <b>{item.marca.descripcion}</b>
             </CardFooter>
           </Card>
         ))}
