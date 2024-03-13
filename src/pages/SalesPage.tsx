@@ -4,13 +4,17 @@ import { OrderDetails } from '../components/OrderDetails'
 import { Navbar } from '../containers/Navbar'
 import { Footer } from '../containers/Footer'
 import { Button } from '@nextui-org/react'
+import { endSale } from '../services/servicesSales'
 
 export const SalesPage = (): JSX.Element => {
-  const handleClose = (): void => {
-    localStorage.removeItem('sale')
-    localStorage.setItem('products', JSON.stringify([]))
-    window.location.reload()
-    window.location.href = '/home'
+  const handleClose = async (): Promise<void> => {
+    const result = await endSale()
+    if (result) {
+      window.location.reload()
+      window.location.href = '/home'
+    } else {
+      console.log('error')
+    }
   }
   return (
     <>
@@ -24,7 +28,7 @@ export const SalesPage = (): JSX.Element => {
               <ProductCard/>
             </div>
             <div className='col-12 col-md-6'>
-              <h2 className='  mt-5 text-2xl fw-lighter'>Detalles de su compra</h2>
+              <h2 className='  mt-5 text-3xl fw-lighter'>Detalles de su compra</h2>
               <OrderDetails/>
             </div>
           </div>

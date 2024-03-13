@@ -12,9 +12,9 @@ export const ButtonQuantity = ({ quantity, setQuantity, maxQuantity}: ButtonProp
 
   return (
     <ButtonGroup>
-      <Button className='cursor-pointer bg-white text-gray-900 shadow-sm border' onClick={decreaseQuantity}>-</Button>
-      <Button className='cursor-not-allowed pointer-events-none bg-white text-gray-900 shadow-sm border'>{quantity}</Button>
-      <Button className={quantity !== maxQuantity ? 'cursor-pointer bg-white text-gray-900 shadow-sm border' : 'cursor-not-allowed pointer-events-none bg-white text-gray-900 shadow-sm border'} onClick={increaseQuantity}>+</Button>
+      <Button className='cursor-pointer bg-white text-gray-900 shadow-sm border text-2xl fw-bolder' onClick={decreaseQuantity}>-</Button>
+      <Button className='cursor-not-allowed pointer-events-none bg-white text-gray-900 shadow-sm border text-xl fw-bolder'>{quantity}</Button>
+      <Button className={quantity !== maxQuantity ? 'cursor-pointer bg-white text-gray-900 shadow-sm border text-2xl fw-bolder' : 'cursor-not-allowed pointer-events-none bg-white text-gray-900 shadow-sm border text-2xl fw-bolder'} onClick={increaseQuantity}>+</Button>
     </ButtonGroup>
   )
 }

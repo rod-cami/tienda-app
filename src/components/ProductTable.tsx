@@ -31,27 +31,26 @@ export const ProductTable = ({ Columns, Items }: ProductTableProps): JSX.Element
   return (
     <>
       <Table
+        color='warning'
         isHeaderSticky={true}
         removeWrapper={true}
         className='text-black bg-transparent'
         aria-label='Lista de Inventario'
-        color='primary'
         selectionMode="single"
-        selectionBehavior='toggle'
         onRowAction={(key) => { handleProductSelection(key) }}
       >
         <TableHeader columns={Columns}>
           {(columns) => (
-            <TableColumn key={columns.key} className='text-center'>
+            <TableColumn key={columns.key} className='text-center text-xl'>
               {columns.label}
             </TableColumn>
           )}
         </TableHeader>
         <TableBody className='before:rounded-full'>
           {Items.map((item, rowIndex) => (
-            <TableRow key={rowIndex} className={Number(key) === Number(rowIndex) ? 'text-center bg-slate-100 rounded-full' : 'text-center rounded-full'}>
+            <TableRow key={rowIndex} className={Number(key) === Number(rowIndex) ? 'text-center bg-amber-300 rounded-full' : 'text-center rounded-full'}>
               {Columns.map((col, colIndex) => (
-                <TableCell key={`${rowIndex}-${colIndex}`} >
+                <TableCell key={`${rowIndex}-${colIndex}`} className='text-xl'>
                   {item[col.key]}
                 </TableCell>
               ))}
@@ -61,7 +60,7 @@ export const ProductTable = ({ Columns, Items }: ProductTableProps): JSX.Element
       </Table>
       <div className='mt-2 d-flex align-items-center justify-between'>
         <ButtonQuantity quantity={quantity} setQuantity={setQuantity} maxQuantity={maxQuantity}/>
-        <Button color="warning" onClick={ addSaleLine }>
+        <Button color="warning" onClick={ addSaleLine } className='text-xl p-4 fw-bolder'>
           Agregar
         </Button>
       </div>

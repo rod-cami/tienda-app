@@ -39,9 +39,9 @@ export const ProductModal = ({ show, handleClose, productos }: ProductModalProps
 
   return (
     <>
-      <Modal size='xl' backdrop='blur' isOpen={show} onClose={handleClose} scrollBehavior='inside'>
+      <Modal size='3xl' backdrop='blur' isOpen={show} onClose={handleClose} scrollBehavior='inside'>
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">Seleccione el producto</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1 text-2xl">Seleccione el producto</ModalHeader>
             <ModalBody className='mb-2'>
               <ProductTable Columns={columns} Items={items}/>
             </ModalBody>

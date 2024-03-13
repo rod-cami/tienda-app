@@ -13,10 +13,14 @@ export const OrderDetails = (): JSX.Element => {
     setPayButton(!(products.length > 0))
   }, [products])
 
-  const handleDelete = (index: number): void => {
+  const handleDelete = (index: number, key: string): void => {
     console.log('hola, ', index)
-    const updatedProducts = deleteSalesLine(index)
-    setProducts(updatedProducts)
+    const result = deleteSalesLine(index, key)
+    if (result) {
+      setProducts(getSalesLines())
+    } else {
+      console.log('no se borro correctamente')
+    }
   }
 
   // Initial stat of show and card
@@ -32,16 +36,16 @@ export const OrderDetails = (): JSX.Element => {
         <div className='w-100'>
           <dl>
             <div className="px-2 pt-3 pb-2 d-flex justify-between border-b border-gray-400">
-              <dt className="text-sm font-medium leading-6">Producto (color, talle, cantidad)</dt>
-              <dt className="text-sm font-medium leading-6">Precio</dt>
-              <dt className="text-sm font-medium leading-6">Eliminar</dt>
+              <dt className="text-xl font-medium leading-6 fw-bolder">Producto</dt>
+              <dt className="text-xl font-medium leading-6 fw-bolder">Precio</dt>
+              <dt className="text-xl font-medium leading-6 fw-bolder">Eliminar</dt>
             </div>
             {
               products.map((item, index) => (
                 <div key={index} className="px-2 py-3 d-flex justify-between">
                     <dd className="text-sm ">{item.nombre} - {item.color} - {item.talle} x {item.cantidad}</dd>
                     <dd className="text-sm text-slate-800 sm:col-span-2 sm:mt-0">${(item.precio).toFixed(2)}</dd>
-                    <dd className="text-sm font-medium leading-6 mr-4"><FontAwesomeIcon onClick={ () => { handleDelete(index) } } className='text-red-600 cursor-pointer' icon={faTrashCan} /></dd>
+                    <dd className="text-sm font-medium leading-6 mr-4"><FontAwesomeIcon onClick={ () => { handleDelete(index, `${item.idLineaDeVenta}`) } } className='text-red-600 cursor-pointer' icon={faTrashCan} /></dd>
                 </div>
               ))
             }

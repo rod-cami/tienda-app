@@ -1,3 +1,4 @@
+import { removeSaleLine } from '../services/servicesSales'
 import { type Rows } from '../types/types.d'
 
 export const getSalesLines = (): Rows[] => {
@@ -16,11 +17,16 @@ export const getSalesLines = (): Rows[] => {
   return products
 }
 
-export const deleteSalesLine = (index: number): Rows[] => {
+export const deleteSalesLine = async (index: number, key: string): boolean => {
   const productsLineSale: Rows[] = JSON.parse(`${localStorage.getItem('products')}`)
   const updatedProducts = productsLineSale.filter((_, i) => i !== index)
   localStorage.setItem('products', JSON.stringify(updatedProducts))
-  return updatedProducts
+  const result = await removeSaleLine(`${key}`)
+  if (result) {
+    console.log('borro bien')
+    return true
+  }
+  return false
 }
 
 export const calculateTotalPrices = (products: Rows[]): number => {

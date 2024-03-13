@@ -44,14 +44,13 @@ export const updateListProducts = async (id: string): Promise<Inventario[]> => {
 }
 
 export const updateSaleLine = async (product: Rows, quantity: number): Promise<boolean> => {
+  const res = await addSaleLine(`${quantity}`, `${product.key}`)
   const productsCarrito = JSON.parse(`${localStorage.getItem('products')}`)
   const newProduct = product
   newProduct.cantidad = quantity
   newProduct.precio = quantity * product.precio
+  newProduct.idLineaDeVenta = res
   productsCarrito.push(newProduct)
   localStorage.setItem('products', JSON.stringify(productsCarrito))
-
-  const res = await addSaleLine(`${quantity}`, `${product.key}`)
-
   return res
 }

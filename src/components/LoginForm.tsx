@@ -4,6 +4,7 @@ import { type SubmitHandler, useForm } from 'react-hook-form'
 import { type UsuarioLogin } from '../models/usuario.d'
 import { fetchPOS, handleLogIn } from '../services/servicesLogin'
 import { type PuntoDeVentaSimple } from '../models/puntoDeVenta.d'
+import { SelectItem } from '@nextui-org/react'
 
 export const LoginForm = (): JSX.Element => {
   // Initial state of the loading spinner and the Form (React Hook Forms library is used).

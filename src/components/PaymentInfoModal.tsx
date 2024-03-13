@@ -8,7 +8,7 @@ export const PaymentInfoModal = ({ show, handleClose, card }: PaymentInfoModalPr
     <>
       <Modal size='3xl' backdrop='blur' isOpen={show} onClose={handleClose}>
         <ModalContent>
-          <ModalHeader className="flex flex-col gap-1">{card ? 'Detalles de facturación' : 'Pago en efectivo' }</ModalHeader>
+          <ModalHeader className="flex flex-col gap-1 text-2xl fw-bolder">{card ? 'Detalles de facturación' : 'Pago en efectivo' }</ModalHeader>
           <ModalBody className='mb-2'>
             {
               card ? <CreditCardInformationForm/> : <CustomerInformationForm/>

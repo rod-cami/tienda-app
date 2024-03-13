@@ -5,10 +5,12 @@ import { type Cliente } from '../models/cliente.d'
 import { type CondicionTributaria } from '../models/condicionTributaria.d'
 import { getTaxCondition } from '../services/servicesSales'
 import { type Venta } from '../models/venta.d'
+import { MAXAMOUNT } from '../consts/consts'
 
 export const CustomerInformationForm = (): JSX.Element => {
   const { register, formState: { errors }, handleSubmit } = useForm<Cliente>()
   const [loading, setLoading] = useState<boolean>(false)
+  const [sale, setSale] = useState<Venta>({})
   const [form, setForm] = useState<boolean>(true)
 
   const handleSubmitForm: SubmitHandler<Cliente> = (data, e) => {
@@ -26,8 +28,9 @@ export const CustomerInformationForm = (): JSX.Element => {
 
   useEffect(() => {
     fetchData()
-    const sale: Venta = JSON.parse(`${localStorage.getItem('sale')}`)
-    if (sale.monto < 67000) {
+    const newSale: Venta = JSON.parse(`${localStorage.getItem('sale')}`)
+    setSale(newSale)
+    if (newSale.monto < MAXAMOUNT) {
       setForm(false)
     }
   }, [taxs])
@@ -37,7 +40,7 @@ export const CustomerInformationForm = (): JSX.Element => {
       {
         form ?
         <>
-          <p>Por favor, completa el siguiente formulario con tu información personal. Todos los campos marcados con (*) son obligatorios.</p>
+          <p>Debido al monto de la compra (${sale.monto}), debe completar el siguiente formulario con la información personal del cliente. Todos los campos marcados con (*) son obligatorios.</p>
           <Form className='row m-0 p-1' onSubmit={ handleSubmit( handleSubmitForm ) }>
             <Form.Group className="col-12 col-md-6 mt-3">
               <Form.Label className='text-sm lg:text-large fw-light'>Nombre(*)</Form.Label>
@@ -181,10 +184,12 @@ export const CustomerInformationForm = (): JSX.Element => {
             </div>
           </Form>
         </>
-
         :
         <>
-         <p>holabb</p>
+          <p>Por favor, complete su venta realizando el pago total de ${sale.monto}.</p>
+          <div className='mt-8 flex flex-col gap-y-4'>
+            <button type="button" className='active:scale-[.98] active:duration-75 transition-all hover:scale-[1.01]  ease-in-out transform py-3 rounded-xl text-white font-bold text-lg bg-black'> { loading ? <Spinner color='light'></Spinner> : <p className='fw-light'> Finalizar compra </p>}</button>
+          </div>
         </>
       }
     </div>

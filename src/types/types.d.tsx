@@ -48,4 +48,5 @@ export interface Rows {
   precio: number
   cantidad: number
   subtotal?: number
+  idLineaDeVenta?: string
 }

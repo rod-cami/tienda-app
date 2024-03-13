@@ -3,9 +3,9 @@ import { URL } from '../consts/consts'
 import { type ArticuloEx } from '../models/articulo.d'
 import { type Inventario } from '../models/inventario.d'
 
-export const getArticles = async (): Promise<ArticuloEx[]> => {
+export const getArticles = async (codigo: string): Promise<ArticuloEx> => {
   try {
-    const articlesAux: ArticuloEx[] = await getData({ URL: `${URL}/Articulo` })
+    const articlesAux: ArticuloEx = await getData({ URL: `${URL}/Articulo/codigo/${codigo}` })
     return articlesAux
   } catch (error) {
     // Manejar errores aquí
