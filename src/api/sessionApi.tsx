@@ -40,6 +40,9 @@ export const logIn = async ({ URL, data }: SessionApiProps): Promise<T> => {
     })
 
     if (!response.ok) {
+      const res = await response.text()
+
+      console.log(res)
       return false
       // const errorMessage = `Request failed with status: ${response.status}`
       // throw new Error(errorMessage)

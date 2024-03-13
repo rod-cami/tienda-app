@@ -1,6 +1,8 @@
+import { type CondicionTributaria } from "./condicionTributaria.d"
+
 export interface Cliente {
   idCliente: number
-  dni: string
+  nroDocumento: string
   cuil: string
   nombre: string
   apellido: string
@@ -12,7 +14,7 @@ export interface Cliente {
 
 export interface ClienteEx {
   idCliente: number
-  dni: string
+  nroDocumento: string
   cuil: string
   nombre: string
   apellido: string
@@ -20,4 +22,16 @@ export interface ClienteEx {
   tarjeta: number
   CVC: number
   fecha_Expiracion: Date
+}
+
+export interface ClienteExtendido {
+  idCliente: number
+  nroDocumento: string
+  cuil: string
+  nombre: string
+  apellido: string
+  telefono: string | null
+  email: string | null
+  domicilio: string
+  condicionTributaria: CondicionTributaria
 }

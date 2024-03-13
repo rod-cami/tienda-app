@@ -5,7 +5,7 @@ import { type PuntoDeVentaSimple } from '../models/puntoDeVenta.d'
 import { type Sesion } from '../models/sesion.d'
 
 export const handleLogIn = async (User: UsuarioLogin): Promise<boolean> => {
-  const session = await logIn({ URL: `${URL}/Sesion/IniciarSesion`, data: User })
+  const session = await logIn({ URL: `${URL}/sesion/iniciarsesion`, data: User })
   if (session !== false) {
     localStorage.setItem('sesion', JSON.stringify(session))
     return true
@@ -15,7 +15,7 @@ export const handleLogIn = async (User: UsuarioLogin): Promise<boolean> => {
 
 export const handleLogOut = async (): Promise<void> => {
   const sessionO: Sesion = JSON.parse(`${localStorage.getItem('sesion')}`)
-  const session = await logOut({ URL: `${URL}/Sesion/CerrarSesion`, sesionId: `${sessionO.idSesion}` })
+  const session = await logOut({ URL: `${URL}/sesion/cerrarsesion`, sesionId: `${sessionO.idSesion}` })
   if (session) {
     localStorage.removeItem('sale')
     localStorage.removeItem('session')
@@ -23,7 +23,7 @@ export const handleLogOut = async (): Promise<void> => {
 }
 
 export const fetchPOS = async (): Promise<PuntoDeVentaSimple[]> => {
-  const POS = await getPointOfSale({ URL: `${URL}/PuntoDeVenta` })
+  const POS = await getPointOfSale({ URL: `${URL}/puntodeventa` })
   const simplifiedPOS: PuntoDeVentaSimple[] = POS
     .filter(pos => pos.sucursal.idSucursal === 1 && pos.habilitado)
     .map(pos => ({

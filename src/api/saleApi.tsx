@@ -1,32 +1,30 @@
 interface SaleApiProps {
   URL: string
-  UsuarioId?: string
-  PuntoDeVentaId?: string
-  idVenta?: string
+  data?: string
+  params?: URLSearchParams
 }
 
-export const postSale = async ({ URL, UsuarioId, PuntoDeVentaId }: SaleApiProps): Promise<T> => {
-  const params = new URLSearchParams({
-    UsuarioId,
-    PuntoDeVentaId
-  })
-
+export const postData = async ({ URL, data }: SaleApiProps): Promise<T> => {
   try {
-    const response = await fetch(`${URL}?${params}`, {
+    const response = await fetch(URL, {
       method: 'POST',
+      body: data,
       headers: {
-        'accept': 'text/plain'
-      },
-      body: ''
+        "Content-Type" : "application/json"
+      }
     })
 
     if (!response.ok) {
+      const res = await response.text()
+
+      console.log(res)
       return false
       // const errorMessage = `Request failed with status: ${response.status}`
       // throw new Error(errorMessage)
     }
 
     const sale = await response.json()
+    console.log(sale)
     return sale
   } catch (error) {
     console.log('Error:', error)
@@ -34,52 +32,10 @@ export const postSale = async ({ URL, UsuarioId, PuntoDeVentaId }: SaleApiProps)
   }
 }
 
-export const putSale = async ({ URL, idVenta }: SaleApiProps): Promise<T> => {
-  const params = new URLSearchParams({
-    idVenta: `${idVenta}`
-  })
-
+export const putData = async ({ URL, params }: SaleApiProps): Promise<T> => {
   try {
     const response = await fetch(`${URL}?${params}`, {
       method: 'PUT',
-      headers: {
-        'accept': 'text/plain'
-      },
-      body: ''
-    })
-
-    if (!response.ok) {
-      return false
-      // const errorMessage = `Request failed with status: ${response.status}`
-      // throw new Error(errorMessage)
-    }
-
-    const sale = await response.json()
-    return sale
-  } catch (error) {
-    console.log('Error:', error)
-    throw error
-  }
-}
-
-interface SaleLineApiProps {
-  URL: string
-  VentaId: string
-  Cantidad?: string
-  InventarioId?: string
-  LineaDeVentaId?: string
-}
-
-export const postSaleLine = async({ URL, VentaId, Cantidad, InventarioId }: SaleLineApiProps): Promise<T> => {
-  const params = new URLSearchParams({
-    VentaId,
-    Cantidad,
-    InventarioId
-  })
-
-  try {
-    const response = await fetch(`${URL}?${params}`, {
-      method: 'POST',
       headers: { 'accept': 'text/plain' },
       body: ''
     })
@@ -98,17 +54,11 @@ export const postSaleLine = async({ URL, VentaId, Cantidad, InventarioId }: Sale
   }
 }
 
-export const deleteSaleLine = async({ URL, VentaId, LineaDeVentaId }: SaleLineApiProps): Promise<T> => {
-  const params = new URLSearchParams({
-    VentaId,
-    LineaDeVentaId: `${LineaDeVentaId}`
-  })
-
+export const deleteSaleLine = async ({ URL }: SaleApiProps): Promise<T> => {
   try {
-    const response = await fetch(`${URL}?${params}`, {
+    const response = await fetch(`${URL}`, {
       method: 'DELETE',
-      headers: { 'accept': 'text/plain' },
-      body: ''
+      headers: { 'accept': '*/*' }
     })
 
     if (!response.ok) {

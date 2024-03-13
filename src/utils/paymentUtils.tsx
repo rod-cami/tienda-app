@@ -1,24 +1,14 @@
+import { LineaDeVenta } from '../models/lineaDeVenta.d'
 import { removeSaleLine } from '../services/servicesSales'
 import { type Rows } from '../types/types.d'
 
-export const getSalesLines = (): Rows[] => {
-  const productsLineSale: Rows[] = JSON.parse(`${localStorage.getItem('products')}`)
-  const products = []
-  for (const pctoCarrito of productsLineSale) {
-    const subtotal = pctoCarrito.precio * pctoCarrito.cantidad
-
-    const productWithSubtotal: Rows = {
-      ...pctoCarrito,
-      subtotal
-    }
-
-    products.push(productWithSubtotal)
-  }
-  return products
+export const getSalesLines = (): LineaDeVenta[] => {
+  const productsLineSale: LineaDeVenta[] = JSON.parse(`${localStorage.getItem('products')}`)
+  return productsLineSale
 }
 
-export const deleteSalesLine = async (index: number, key: string): boolean => {
-  const productsLineSale: Rows[] = JSON.parse(`${localStorage.getItem('products')}`)
+export const deleteSalesLine = async (index: number, key: string): Promise<boolean> => {
+  const productsLineSale: LineaDeVenta[] = JSON.parse(`${localStorage.getItem('products')}`)
   const updatedProducts = productsLineSale.filter((_, i) => i !== index)
   localStorage.setItem('products', JSON.stringify(updatedProducts))
   const result = await removeSaleLine(`${key}`)

@@ -6,4 +6,7 @@ export interface LineaDeVenta {
   cantidad: number
   inventario: Inventario
   venta: Venta
+  montoIva: number
+  netoGravado: number
+  subtotal: number
 }

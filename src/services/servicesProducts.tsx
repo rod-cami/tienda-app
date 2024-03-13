@@ -5,7 +5,7 @@ import { type Inventario } from '../models/inventario.d'
 
 export const getArticles = async (codigo: string): Promise<ArticuloEx> => {
   try {
-    const articlesAux: ArticuloEx = await getData({ URL: `${URL}/Articulo/codigo/${codigo}` })
+    const articlesAux: ArticuloEx = await getData({ URL: `${URL}/articulo/codigo/${codigo}` })
     return articlesAux
   } catch (error) {
     // Manejar errores aquí
@@ -16,7 +16,7 @@ export const getArticles = async (codigo: string): Promise<ArticuloEx> => {
 
 export const getArticlesInventory = async (): Promise<Inventario[]> => {
   try {
-    const inventoryAux: Inventario[] = await getData({ URL: `${URL}/Inventario` })
+    const inventoryAux: Inventario[] = await getData({ URL: `${URL}/inventario` })
     return inventoryAux
   } catch (error) {
     // Manejar errores aquí

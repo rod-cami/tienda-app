@@ -1,5 +1,6 @@
 import { type IconProp } from '@fortawesome/fontawesome-svg-core'
 import { type Producto } from '../models/products.d'
+import { LineaDeVenta } from '../models/lineaDeVenta.d'
 
 export interface ModalProps {
   show: boolean
@@ -48,5 +49,5 @@ export interface Rows {
   precio: number
   cantidad: number
   subtotal?: number
-  idLineaDeVenta?: string
+  lineaDeVenta?: LineaDeVenta
 }
