@@ -1,4 +1,6 @@
+import toast from 'react-hot-toast'
 import { type UsuarioLogin } from '../models/usuario.d'
+import { alertText } from '../utils/alertsUtils'
 
 interface SessionApiProps {
   URL: string
@@ -11,11 +13,13 @@ export const getPointOfSale = async ({ URL }: Pick<SessionApiProps, 'URL'>): Pro
     const response = await fetch(URL)
 
     if (!response.ok) {
-      const errorMessage = `Request failed with status: ${response.status}`
-      throw new Error(errorMessage)
+      const res = await response.text()
+      const text = alertText(res)
+      toast.error(text)
     }
 
     const data: T = await response.json().catch(() => null)
+    // toast.success('Acción completada correctamente!')
     return data
   } catch (error) {
     console.log('Error:', error)
@@ -41,14 +45,13 @@ export const logIn = async ({ URL, data }: SessionApiProps): Promise<T> => {
 
     if (!response.ok) {
       const res = await response.text()
-
-      console.log(res)
+      const text = alertText(res)
+      toast.error(text)
       return false
-      // const errorMessage = `Request failed with status: ${response.status}`
-      // throw new Error(errorMessage)
     }
 
     const session = await response.json()
+    toast.success('Acción completada correctamente!')
     return session
   } catch (error) {
     console.log('Error:', error)
@@ -69,11 +72,13 @@ export const logOut = async ({ URL, sesionId }: Pick<SessionApiProps, 'URL' | 's
     })
 
     if (!response.ok) {
+      const res = await response.text()
+      const text = alertText(res)
+      toast.error(text)
       return false
-      // const errorMessage = `Request failed with status: ${response.status}`
-      // throw new Error(errorMessage)
     }
 
+    toast.success('Acción completada correctamente!')
     return true
   } catch (error) {
     console.log('Error:', error)

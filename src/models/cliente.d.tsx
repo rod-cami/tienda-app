@@ -3,7 +3,7 @@ import { type CondicionTributaria } from "./condicionTributaria.d"
 export interface Cliente {
   idCliente: number
   nroDocumento: string
-  cuil: string
+  tipoDocumento: string
   nombre: string
   apellido: string
   telefono: string | null
@@ -15,7 +15,7 @@ export interface Cliente {
 export interface ClienteEx {
   idCliente: number
   nroDocumento: string
-  cuil: string
+  tipoDocumento: string
   nombre: string
   apellido: string
   idCondicionTributaria: number | null
@@ -27,7 +27,7 @@ export interface ClienteEx {
 export interface ClienteExtendido {
   idCliente: number
   nroDocumento: string
-  cuil: string
+  tipoDocumento: string
   nombre: string
   apellido: string
   telefono: string | null

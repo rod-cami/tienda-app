@@ -1,11 +1,15 @@
+import { card } from '@nextui-org/react'
 import { getData } from '../api/productDataApi'
-import { deleteSaleLine, getAuthorize, postData, putData } from '../api/saleApi'
+import { deleteSaleLine, getAuthorize, postData, postFinishData, putData } from '../api/saleApi'
 import { URL } from '../consts/consts'
+import Swal from 'sweetalert2'
+import { type Cliente } from '../models/cliente.d'
 import { type CondicionTributaria } from '../models/condicionTributaria.d'
-import { Empleado } from '../models/empleado.d'
+import { DatosTarjeta, DatosTarjetaForm, Tarjeta, Titular } from '../models/datosTarjeta.d'
+import { type Empleado } from '../models/empleado.d'
 import { type LineaDeVenta } from '../models/lineaDeVenta.d'
 import { type Sesion } from '../models/sesion.d'
-import { Sucursal } from '../models/sucursal.d'
+import { type Sucursal } from '../models/sucursal.d'
 import { type Venta } from '../models/venta.d'
 
 export const startSale = async (): Promise<boolean> => {
@@ -17,6 +21,7 @@ export const startSale = async (): Promise<boolean> => {
   if (sale !== false) {
     console.log(sale)
     localStorage.setItem('sale', JSON.stringify(sale))
+    localStorage.setItem('pay', JSON.stringify('Efectivo'))
     return true
   }
   return false
@@ -24,13 +29,7 @@ export const startSale = async (): Promise<boolean> => {
 
 export const getTaxCondition = async (): Promise<CondicionTributaria[]> => {
   const taxConditions = await getData({ URL: `${URL}/condiciontributaria` })
-  const simplifiedTaxConditions: CondicionTributaria[] = taxConditions
-    .map(tax => ({
-      idCondicionTributaria: tax.idCondicionTributaria,
-      descripcion: tax.descripcion,
-      idTipoDeComprobante: tax.tipoDeComprobante.idTipoDeComprobante
-    }))
-  return simplifiedTaxConditions
+  return taxConditions
 }
 
 export const addSaleLine = async (Cantidad: string, InventarioId: string): Promise<T> => {
@@ -63,6 +62,8 @@ export const endSale = async (): Promise<boolean> => {
   const newSale = await putData({ URL: `${URL}/venta/cancelar`, params: params })
   if (newSale !== false) {
     localStorage.removeItem('sale')
+    localStorage.removeItem('card')
+    localStorage.removeItem('pay')
     localStorage.setItem('products', JSON.stringify([]))
     return true
   }
@@ -96,16 +97,112 @@ export const getBranch = async (): Promise<Sucursal> => {
   return branch
 }
 
-export const authorizeAFIP = (): void => {
-  const result: boolean = getAuthorize()
-  if (result) {
-    console.log('Se autorizo afip')
-  }
+export const getCustomer = async (nroDocumento: string): Promise<T> => {
+  const customers: Cliente[] = await getData({ URL: `${URL}/cliente` })
+  console.log(customers)
+  const foundCustomer = customers.find((customer) => `${customer.nroDocumento}` === `${nroDocumento}`)
+
+  return foundCustomer
 }
 
-export const authorizePaymentSystem = (): void => {
-  const result: boolean = getAuthorize()
-  if (result) {
-    console.log('Se autorizo sistema de pagos')
+export const addCustomerToSale = async (idCliente: string): Promise<boolean> => {
+  const sale: Venta = JSON.parse(`${localStorage.getItem('sale')}`)
+  const params = new URLSearchParams({
+    clienteId: `${idCliente}`
+  })
+
+  const result = await putData({ URL: `${URL}/venta/${sale.idVenta}/cliente/modificar`, params: params })
+  console.log(result)
+  if (result !== false) {
+    const newSale = await getData({ URL: `${URL}/venta/${sale.idVenta}` })
+    localStorage.setItem('sale', JSON.stringify(newSale))
+    return true
   }
+  return false
+}
+
+export const finishSale = async (): Promise<boolean> => {
+  const pay: string = JSON.parse(`${localStorage.getItem('pay')}`)
+  const sale: Venta = JSON.parse(`${localStorage.getItem('sale')}`)
+  let data
+  const params = new URLSearchParams({
+    ventaId: `${sale.idVenta}`
+  })
+
+  if (pay === 'Efectivo') {
+    data = {
+      esTarjeta: false
+    }
+  } else if (pay === 'Tarjeta') {
+    data = JSON.parse(`${localStorage.getItem('card')}`)
+  }
+
+  const result = await postFinishData({ URL: `${URL}/venta/finalizar`, data: JSON.stringify(data), params })
+  if (result !== false) {
+    console.log(result)
+    localStorage.removeItem('sale')
+    localStorage.removeItem('pay')
+    localStorage.setItem('products', JSON.stringify([]))
+    return true
+  }
+  return false
+}
+
+export const createCard = (data: DatosTarjetaForm): void => {
+  const dateString = `${data.fechaExpiracion}`
+  const [year, month] = dateString.split('-')
+
+  localStorage.setItem('pay', JSON.stringify('Tarjeta'))
+  const sale: Venta = JSON.parse(`${localStorage.getItem('sale')}`)
+
+  if (sale.cliente.idCliente === 0) {
+    Swal.fire("Necesita un cliente")
+  }
+
+  const tipoDoc = sale.cliente.tipoDocumento === 'CUIT' ? 1 : 0
+
+  const titular: Titular = {
+    nombreCompleto: `${sale.cliente.apellido} ${sale.cliente.nombre}`,
+    tipoDocumento: tipoDoc,
+    nroDocumento: sale.cliente.nroDocumento
+  }
+
+  const datosTarjeta: DatosTarjeta = {
+    numeroTarjeta: data.numeroTarjeta,
+    titular: titular,
+    mesExpiracion: `${month}`,
+    añoExpiracion: `${year[2]}${year[3]}`,
+    cvv: data.cvc
+  }
+
+  const tarjeta: Tarjeta = {
+    esTarjeta: true,
+    datosTarjeta: datosTarjeta
+  }
+
+  localStorage.setItem('card', JSON.stringify(tarjeta))
+}
+
+export const createCustomer = async (dataForm: Cliente): Promise<boolean> => {
+  const data = {
+    tipoDocumento: dataForm.tipoDocumento,
+    nroDocumento: dataForm.nroDocumento,
+    nombre: dataForm.nombre,
+    apellido: dataForm.apellido,
+    domicilio: 'sin domicilio',
+    idCondicionTributaria: dataForm.idCondicionTributaria
+  }
+  const customer: Cliente = await postData({ URL: `${URL}/cliente`, data: JSON.stringify(data) })
+  if (customer !== false) {
+    const sale1: Venta = JSON.parse(`${localStorage.getItem('sale')}`)
+    const params = new URLSearchParams({
+      clienteId: `${customer.idCliente}`
+    })
+    const newSale = await putData({ URL: `${URL}/venta/${sale1.idVenta}/cliente/modificar`, params })
+    console.log(newSale)
+    localStorage.setItem('sale', JSON.stringify(newSale))
+    localStorage.setItem('pay', JSON.stringify('Efectivo'))
+    return true
+  }
+  return false
 }

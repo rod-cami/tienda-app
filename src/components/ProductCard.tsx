@@ -85,7 +85,7 @@ export const ProductCard = (): JSX.Element => {
           </form>
         </div>
         <div className="gap-2 grid grid-cols-1  my-4 ">
-          { articles  ? 
+          { articles ? 
             <Card shadow="sm" isPressable onPress={() => { handleShow(articles.codigo) }}>
               <CardFooter className="text-small flex justify-between">
                 <b className='text-2xl fw-bolder'>{articles.codigo} - {articles.descripcion}</b>

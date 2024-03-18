@@ -31,11 +31,11 @@ export const updateListProducts = async (id: string): Promise<Inventario[]> => {
   const sesion: Sesion = JSON.parse(`${localStorage.getItem('sesion')}`)
   const inventoryListPromise: Promise<Inventario[]> = getArticlesInventory()
   const inventoryList: Inventario[] = await inventoryListPromise
-  console.log(inventoryList)
+  // console.log(inventoryList)
   const newList: Inventario[] = []
 
   for (const product of inventoryList) {
-    if (id === product.articulo.codigo && sesion.puntoDeVenta.idSucursal === product.sucursal.idSucursal) {
+    if (id === product.articulo.codigo && sesion.puntoDeVenta.idSucursal === product.sucursal.idSucursal && product.cantidad > 0) {
       newList.push(product)
     }
   }

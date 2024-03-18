@@ -4,6 +4,8 @@ import { Card, CardHeader } from '@nextui-org/react'
 import '../styles/homePage.css'
 import { startSale } from '../services/servicesSales'
 import { type Sesion } from '../models/sesion.d'
+import toast from "react-hot-toast"
+
 
 export const HomePage = (): JSX.Element => {
   const handleInitiateSale = async (): Promise<void> => {

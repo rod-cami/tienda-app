@@ -5,6 +5,7 @@ import { Navbar } from '../containers/Navbar'
 import { Footer } from '../containers/Footer'
 import { SaleInformation } from '../components/SaleInformation'
 
+
 export const SalesPage = (): JSX.Element => {
   return (
     <>
